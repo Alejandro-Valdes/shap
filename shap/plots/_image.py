@@ -111,7 +111,7 @@ def image(shap_values, pixel_values=None, labels=None, width=20, aspect=0.2, hsp
             x_curr_gray = x_curr
             x_curr_disp = x_curr
 
-        axes[row,0].imshow(x_curr_disp, cmap=pl.get_cmap('gray'))
+        axes[row,0].imshow(x_curr_disp, cmap='YlOrRd')
         axes[row,0].axis('off')
         if len(shap_values[0][row].shape) == 2:
             abs_vals = np.stack([np.abs(shap_values[i]) for i in range(len(shap_values))], 0).flatten()
