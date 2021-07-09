@@ -18,7 +18,8 @@ from IPython.core.display import display, HTML
 # pylint: disable=unsubscriptable-object
 
 
-def image(shap_values, pixel_values=None, labels=None, width=20, aspect=0.2, hspace=0.2, labelpad=None, show=True):
+def image(shap_values, pixel_values=None, labels=None, width=20, aspect=0.2, hspace=0.2, labelpad=None, show=True,
+          save=False, save_path=None):
     """ Plots SHAP values for image inputs.
 
     Parameters
@@ -133,6 +134,10 @@ def image(shap_values, pixel_values=None, labels=None, width=20, aspect=0.2, hsp
     cb.outline.set_visible(False)
     if show:
         pl.show()
+        
+    if save:
+        pl.savefig(save_path, transparent=True, format='png', bbox_inches='tight')
+        pl.close()
 
 
 def image_to_text(shap_values):
