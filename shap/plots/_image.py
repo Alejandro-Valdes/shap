@@ -132,6 +132,7 @@ def image(shap_values, pixel_values=None, labels=None, width=20, aspect=0.2, hsp
         fig.subplots_adjust(hspace=hspace)
     cb = fig.colorbar(im, ax=np.ravel(axes).tolist(), label="<less meaningful       SHAP value      more meaninguful>", orientation="horizontal", aspect=fig_size[0]/aspect)
     cb.outline.set_visible(False)
+    cb.ax.set_xticklabels(['Less Meaningful', '', 'More Meaningful'])
 
     if show:
         pl.show()
