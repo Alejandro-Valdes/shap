@@ -112,7 +112,7 @@ def image(shap_values, pixel_values=None, labels=None, width=20, aspect=0.2, hsp
             x_curr_gray = x_curr
             x_curr_disp = x_curr
 
-        axes[row,0].imshow(x_curr_disp, cmap='YlOrRd')
+        axes[row,0].imshow(x_curr_disp, cmap='YlOrRd', origin='lower')
         axes[row,0].axis('off')
         if len(shap_values[0][row].shape) == 2:
             abs_vals = np.stack([np.abs(shap_values[i]) for i in range(len(shap_values))], 0).flatten()
@@ -123,8 +123,8 @@ def image(shap_values, pixel_values=None, labels=None, width=20, aspect=0.2, hsp
             if labels is not None:
                 axes[row,i+1].set_title(labels[row,i], **label_kwargs)
             sv = shap_values[i][row] if len(shap_values[i][row].shape) == 2 else shap_values[i][row].sum(-1)
-            axes[row,i+1].imshow(x_curr_gray, cmap=pl.get_cmap('gray'), alpha=0.15, extent=(-1, sv.shape[1], sv.shape[0], -1))
-            im = axes[row,i+1].imshow(sv, cmap=colors.red_transparent_blue, vmin=-max_val, vmax=max_val)
+            axes[row,i+1].imshow(x_curr_gray, cmap=pl.get_cmap('gray'), alpha=0.15, extent=(-1, sv.shape[1], sv.shape[0], -1), origin='lower')
+            im = axes[row,i+1].imshow(sv, cmap=colors.red_transparent_blue, vmin=-max_val, vmax=max_val, origin='lower')
             axes[row,i+1].axis('off')
     if hspace == 'auto':
         fig.tight_layout()
@@ -132,6 +132,7 @@ def image(shap_values, pixel_values=None, labels=None, width=20, aspect=0.2, hsp
         fig.subplots_adjust(hspace=hspace)
     cb = fig.colorbar(im, ax=np.ravel(axes).tolist(), label="SHAP value", orientation="horizontal", aspect=fig_size[0]/aspect)
     cb.outline.set_visible(False)
+    cb.set_ticks(['left', 'middle', 'right'])
     if show:
         pl.show()
         
