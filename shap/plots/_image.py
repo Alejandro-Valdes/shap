@@ -134,7 +134,7 @@ def image(shap_values, pixel_values=None, labels=None, width=20, aspect=0.2, hsp
     cb.outline.set_visible(False)
     
     num_labels = len(cb.ax.get_xticklabels())
-    new_labels = ['' for lbl in random(num_labels)]
+    new_labels = ['' for _ in range(num_labels)]
     new_labels[0] = 'Less Meaningful'
     new_labels[-1] = 'More Meaningful'
     cb.ax.set_xticklabels(new_labels)
