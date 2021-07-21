@@ -112,7 +112,7 @@ def image(shap_values, pixel_values=None, labels=None, width=20, aspect=0.2, hsp
             x_curr_gray = x_curr
             x_curr_disp = x_curr
 
-        axes[row,0].imshow(x_curr_disp, cmap='YlOrRd', origin='lower')
+        axes[row,0].imshow(x_curr_disp, cmap='YlOrRd', origin='lower', vmin=0, vmax=1)
         axes[row,0].axis('off')
         if len(shap_values[0][row].shape) == 2:
             abs_vals = np.stack([np.abs(shap_values[i]) for i in range(len(shap_values))], 0).flatten()
@@ -132,8 +132,12 @@ def image(shap_values, pixel_values=None, labels=None, width=20, aspect=0.2, hsp
         fig.subplots_adjust(hspace=hspace)
     cb = fig.colorbar(im, ax=np.ravel(axes).tolist(), label="SHAP value", orientation="horizontal", aspect=fig_size[0]/aspect)
     cb.outline.set_visible(False)
-    print(cb.ax.get_xticklabels())
-    cb.ax.set_xticklabels(['Less Meaningful', '' , '', '', '', '', '', '', 'More Meaningful'])
+    
+    num_labels = len(cb.ax.get_xticklabels())
+    new_labels = ['' for lbl in random(num_labels)]
+    new_labels[0] = 'Less Meaningful'
+    new_labels[-1] = 'More Meaningful'
+    cb.ax.set_xticklabels(new_labels)
 
     if show:
         pl.show()
